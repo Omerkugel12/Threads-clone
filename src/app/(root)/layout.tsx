@@ -5,6 +5,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import TopBar from "@/components/shared/TopBar";
 import LeftSideBar from "@/components/shared/LeftBar";
 import RightSideBar from "@/components/shared/RightBar";
+import BottomBar from "@/components/shared/BottomBar";
 
 export const metadata: Metadata = {
   title: "Threads",
@@ -30,6 +31,7 @@ export default function RootLayout({
             </section>
             <RightSideBar />
           </main>
+          <BottomBar />
         </body>
       </html>
     </ClerkProvider>
