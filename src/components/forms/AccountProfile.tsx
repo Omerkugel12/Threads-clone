@@ -19,6 +19,8 @@ import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import Image from "next/image";
 import { Textarea } from "../ui/textarea";
+import { isBase64Image } from "@/lib/utils";
+import { useUploadThing } from "@/lib/uploadthing";
 
 interface PropsTyps {
   user: UserData;
@@ -27,6 +29,7 @@ interface PropsTyps {
 
 function AccountProfile({ user, btnTitle }: PropsTyps) {
   const [files, setFiles] = useState<File[]>([]);
+  const { startUpload } = useUploadThing("media");
 
   const form = useForm({
     resolver: zodResolver(UserValidation),
@@ -64,10 +67,18 @@ function AccountProfile({ user, btnTitle }: PropsTyps) {
     }
   };
 
-  function onSubmit(values: z.infer<typeof UserValidation>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof UserValidation>) {
+    const blob = values.profile_photo;
+
+    const hasImageChanged = isBase64Image(blob);
+
+    if (hasImageChanged) {
+      const imgRes = await startUpload(files);
+
+      if (imgRes && imgRes[0].url) {
+        values.profile_photo = imgRes[0].url;
+      }
+    }
   }
 
   return (
@@ -112,6 +123,7 @@ function AccountProfile({ user, btnTitle }: PropsTyps) {
                   }}
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -126,6 +138,7 @@ function AccountProfile({ user, btnTitle }: PropsTyps) {
               <FormControl>
                 <Input type="text" className="account-form_input" {...field} />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -140,6 +153,7 @@ function AccountProfile({ user, btnTitle }: PropsTyps) {
               <FormControl>
                 <Input type="text" className="account-form_input" {...field} />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -154,6 +168,7 @@ function AccountProfile({ user, btnTitle }: PropsTyps) {
               <FormControl>
                 <Textarea className="account-form_input" {...field} />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
