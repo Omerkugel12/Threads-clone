@@ -28,8 +28,6 @@ export async function createThread({
       community: null,
     });
 
-    console.log("createdThread: ", createdThread);
-
     await User.findByIdAndUpdate(author, {
       $push: { threads: createdThread._id },
     });
@@ -37,5 +35,39 @@ export async function createThread({
     revalidatePath(path);
   } catch (error: any) {
     throw new Error(`Failed to create thread: ${error.message}`);
+  }
+}
+
+export async function fetchPosts(pageNumber = 1, pageSize = 5) {
+  try {
+    connectToDB();
+
+    const skipAmount = (pageNumber - 1) * pageSize;
+
+    const postQuery = Thread.find({
+      parentId: { $in: [null, undefined] },
+    })
+      .sort({ createdAt: "desc" })
+      .populate({ path: "author", model: User })
+      .populate({
+        path: "children",
+        populate: {
+          path: "author",
+          model: User,
+          select: "_id name parentId image",
+        },
+      });
+
+    const totalPostsCount = await Thread.countDocuments({
+      parentId: { $in: [null, undefined] },
+    });
+
+    const posts = await postQuery.exec();
+
+    const isNext = totalPostsCount > skipAmount + posts.length;
+
+    return { posts, isNext };
+  } catch (error: any) {
+    throw new Error(`Failed to fetch posts: ${error.message}`);
   }
 }
