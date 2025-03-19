@@ -22,10 +22,6 @@ async function page() {
     image: userInfo?.image || user?.imageUrl,
   };
 
-  // useEffect(() => {
-  // console.log("user: ", user?.fullName);
-  // }, []);
-
   return (
     <div className="mx-auto flex max-w-3xl flex-col justify-start px-10 py-20">
       <h1 className="head-text">Onboarding</h1>

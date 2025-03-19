@@ -23,9 +23,11 @@ export async function updateUser({
 }: Params): Promise<void> {
   connectToDB();
 
+  console.log("userIdddddd: ", userId);
+
   try {
-    await User.findByIdAndUpdate(
-      { _id: userId },
+    await User.findOneAndUpdate(
+      { id: userId },
       {
         username: username.toLowerCase(),
         name,
@@ -48,7 +50,7 @@ export async function fetchUser(userId: string) {
   try {
     connectToDB();
 
-    return await User.findOne({ _id: userId });
+    return await User.findOne({ id: userId });
   } catch (error: any) {
     throw new Error(`Failed to fetch user: ${error.message}`);
   }
