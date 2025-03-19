@@ -71,7 +71,7 @@ function PostThread({ userId }: { userId: string }) {
               </FormItem>
             )}
           />
-          <Button type="submit" className="account-form_button">
+          <Button type="submit" className="bg-primary-500">
             Submit
           </Button>
         </form>

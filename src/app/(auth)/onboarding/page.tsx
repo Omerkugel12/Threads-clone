@@ -11,9 +11,20 @@ async function page() {
 
   if (!user) return null;
 
-  const userInfo = {};
+  const userInfo = await fetchUser(user.id);
 
-  const userData: UserData = await fetchUser(user.id);
+  const userData: UserData = {
+    id: user?.id,
+    objectId: userInfo?._id,
+    username: userInfo?.username || user?.username,
+    name: userInfo?.name || user?.firstName,
+    bio: userInfo?.bio || "",
+    image: userInfo?.image || user?.imageUrl,
+  };
+
+  // useEffect(() => {
+  // console.log("user: ", user?.fullName);
+  // }, []);
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col justify-start px-10 py-20">
