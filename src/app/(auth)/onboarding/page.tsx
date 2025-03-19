@@ -4,6 +4,7 @@ import AccountProfile from "@/components/forms/AccountProfile";
 import React, { useEffect } from "react";
 import { currentUser } from "@clerk/nextjs/server";
 import { UserData } from "@/types";
+import { fetchUser } from "@/lib/actions/user.actions";
 
 async function page() {
   const user = await currentUser();
@@ -12,18 +13,7 @@ async function page() {
 
   const userInfo = {};
 
-  const userData: UserData = {
-    id: user?.id,
-    objectId: userInfo?._id,
-    username: userInfo?.username || user?.username,
-    name: userInfo?.name || user?.firstName,
-    bio: userInfo?.bio || "",
-    image: userInfo?.image || user?.imageUrl,
-  };
-
-  // useEffect(() => {
-  // console.log("user: ", user?.fullName);
-  // }, []);
+  const userData: UserData = await fetchUser(user.id);
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col justify-start px-10 py-20">
