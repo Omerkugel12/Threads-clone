@@ -38,7 +38,11 @@ function ThreadCard({
   isComment,
 }: PropsTypes) {
   return (
-    <article className="flex w-full flex-col rounded-xl bg-dark-2 p-7">
+    <article
+      className={`flex w-full flex-col rounded-xl bg-dark-2 p-7 ${
+        isComment ? "px-0 xs:px-7" : "bg-transparent p-0"
+      }`}
+    >
       <div className="flex item-start justify-between">
         <div className="flex w-full flex-1 flex-row gap-4">
           <div className="flex flex-col items-center">
