@@ -71,3 +71,39 @@ export async function fetchPosts(pageNumber = 1, pageSize = 5) {
     throw new Error(`Failed to fetch posts: ${error.message}`);
   }
 }
+
+export async function fetchPostById(id: string) {
+  try {
+    connectToDB();
+
+    const post = await Thread.findById(id)
+      .populate({
+        path: "author",
+        model: User,
+        select: "_id name image",
+      })
+      .populate({
+        path: "children",
+        populate: [
+          {
+            path: "author",
+            model: User,
+            select: "_id name parentId image",
+          },
+          {
+            path: "children",
+            model: "Thread",
+            populate: {
+              path: "author",
+              model: "User",
+              select: "_id name parentId image",
+            },
+          },
+        ],
+      });
+
+    return post;
+  } catch (error) {
+    throw new Error(`Failed to fetch post: ${error}`);
+  }
+}
