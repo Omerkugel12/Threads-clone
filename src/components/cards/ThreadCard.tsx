@@ -6,16 +6,18 @@ interface PropsTypes {
   parentId: string | null;
   content: string;
   author: string;
-  community: string;
+  community: {
+    id: string;
+    name: string;
+    image: string;
+  } | null;
   createdAt: string;
   comments: {
-    author: string;
-    body: string;
-    createdAt: string;
-    id: string;
-    parentId: string | null;
-    children: {};
-  };
+    author: {
+      image: string;
+    };
+  }[];
+  isComment?: boolean;
 }
 
 function ThreadCard({
@@ -28,7 +30,11 @@ function ThreadCard({
   currentUserId,
   parentId,
 }: PropsTypes) {
-  return <div></div>;
+  return (
+    <article>
+      <h2 className="text-small-regular text-light-2">{content}</h2>
+    </article>
+  );
 }
 
 export default ThreadCard;
