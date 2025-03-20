@@ -10,6 +10,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
+import { addCommentToThread } from "@/lib/actions/thread.actions";
 
 interface CommentProps {
   threadId: string;
@@ -31,6 +32,19 @@ function Comment({ threadId, currentUserImg, currentUserId }: CommentProps) {
 
   const onSubmit = async (values: z.infer<typeof CommentValidation>) => {
     console.log("valuesccccccc: ", values);
+
+    try {
+      await addCommentToThread(
+        threadId,
+        values.thread,
+        currentUserId,
+        pathname
+      );
+
+      form.reset();
+    } catch (error) {
+      throw new Error(`Failed to add comment to thread: ${error}`);
+    }
   };
 
   return (
