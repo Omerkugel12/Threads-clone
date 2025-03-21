@@ -9,6 +9,7 @@ interface PropsTypes {
   content: string;
   author: {
     _id: string;
+    id: string;
     name: string;
     image: string;
   };
@@ -46,10 +47,7 @@ function ThreadCard({
       <div className="flex item-start justify-between">
         <div className="flex w-full flex-1 flex-row gap-4">
           <div className="flex flex-col items-center">
-            <Link
-              href={`/profile/${author._id}`}
-              className="relative h-11 w-11"
-            >
+            <Link href={`/profile/${author.id}`} className="relative h-11 w-11">
               <Image
                 src={author.image}
                 alt="Profile Image"
@@ -60,7 +58,7 @@ function ThreadCard({
             <div className="thread-card_bar" />
           </div>
           <div className="flex w-full flex-col">
-            <Link href={`/profile/${author._id}`}>
+            <Link href={`/profile/${author.id}`}>
               <h4 className="cursor-pointer text-base-semibold text-light-1">
                 {author.name}
               </h4>

@@ -16,6 +16,7 @@ async function page() {
   // console.log("userrrrrrr: ", user);
 
   const userData: UserData = {
+    _id: userInfo?._id,
     id: user?.id,
     objectId: userInfo?._id,
     username: userInfo?.username || user?.username,
