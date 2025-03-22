@@ -8,7 +8,7 @@ interface PropsTypes {
   parentId: string | null;
   content: string;
   author: {
-    _id: string;
+    _id?: string;
     id: string;
     name: string;
     image: string;
