@@ -1,7 +1,11 @@
 import React from "react";
 
 function Page() {
-  return <div></div>;
+  return (
+    <div>
+      <h1 className="head-text mb-10">Communities</h1>
+    </div>
+  );
 }
 
 export default Page;
