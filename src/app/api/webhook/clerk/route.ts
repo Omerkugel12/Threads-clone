@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 /* eslint-disable camelcase */
 // Resource: https://clerk.com/docs/users/sync-data-to-your-backend
 // Above article shows why we need webhooks i.e., to sync data to our backend
@@ -35,6 +37,9 @@ type Event = {
 };
 
 export const POST = async (request: Request) => {
+  console.log("request method:", request.method);
+
+  // Verify the request's integrity.
   const payload = await request.json();
   const header = headers();
 
