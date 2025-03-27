@@ -1,6 +1,5 @@
 import ThreadCard from "@/components/cards/ThreadCard";
 import { fetchPosts } from "@/lib/actions/thread.actions";
-import { UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 
 export default async function Home() {
@@ -18,7 +17,7 @@ export default async function Home() {
           <p>No Threads found</p>
         ) : (
           <>
-            {result.posts.map((post) => {
+            {/* {result.posts.map((post) => {
               return (
                 <ThreadCard
                   key={post._id}
@@ -33,7 +32,7 @@ export default async function Home() {
                   isComment={true}
                 />
               );
-            })}
+            })} */}
           </>
         )}
       </section>

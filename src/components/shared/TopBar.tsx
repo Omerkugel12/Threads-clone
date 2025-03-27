@@ -30,8 +30,7 @@ function TopBar() {
           appearance={{
             baseTheme: dark,
             elements: {
-              organizationSwitcherTrigger:
-                "py-2 px-4 rounded-md text-slate-900",
+              organizationSwitcherTrigger: "py-2 px-4 ",
             },
           }}
         />
