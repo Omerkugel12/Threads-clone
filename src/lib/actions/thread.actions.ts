@@ -5,6 +5,7 @@ import Thread from "../models/thread.model";
 import User from "../models/user.model";
 import { connectToDB } from "../mongoose";
 import mongoose from "mongoose";
+import Community from "../models/community.model";
 
 interface Params {
   text: string;
@@ -22,15 +23,25 @@ export async function createThread({
   try {
     connectToDB();
 
+    const community = await Community.findOne({ id: communityId });
+
+    console.log("communityyyyyyyyyy: ", community);
+
     const createdThread = await Thread.create({
       text,
       author,
-      community: communityId,
+      community: community,
     });
 
     await User.findByIdAndUpdate(author, {
       $push: { threads: createdThread._id },
     });
+
+    if (community) {
+      await Community.findByIdAndUpdate(community._id, {
+        $push: { threads: createdThread._id },
+      });
+    }
 
     revalidatePath(path);
   } catch (error: any) {
@@ -56,6 +67,11 @@ export async function fetchPosts(pageNumber = 1, pageSize = 5) {
           model: User,
           select: "_id name parentId image",
         },
+      })
+      .populate({
+        path: "community",
+        model: Community,
+        select: "id name image",
       });
 
     const totalPostsCount = await Thread.countDocuments({
