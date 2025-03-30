@@ -5,20 +5,20 @@ import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 async function Home() {
-  // const result = await fetchPosts(1, 5);
+  const result = await fetchPosts(1, 5);
 
-  // const user = await currentUser();
-  // if (!user) return null;
+  const user = await currentUser();
+  if (!user) return null;
 
-  // const userInfo = await fetchUser(user.id);
-  // if (!userInfo?.onboarded) redirect("/onboarding");
+  const userInfo = await fetchUser(user.id);
+  if (!userInfo?.onboarded) redirect("/onboarding");
 
   return (
     <main>
       <h1 className="head-text text-left">Home</h1>
 
       <section className="mt-9 flex flex-col gap-10">
-        {/* {result.posts.length === 0 ? (
+        {result.posts.length === 0 ? (
           <p>No Threads found</p>
         ) : (
           <>
@@ -39,7 +39,7 @@ async function Home() {
               );
             })}
           </>
-        )} */}
+        )}
       </section>
     </main>
   );
