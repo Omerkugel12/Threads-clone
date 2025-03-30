@@ -1,6 +1,7 @@
 import { fetchUserPosts } from "@/lib/actions/user.actions";
 import React from "react";
 import ThreadCard from "../cards/ThreadCard";
+import { fetchCommunityPosts } from "@/lib/actions/community.actions";
 
 interface ThreadTabProps {
   currentUserId: string;
@@ -13,7 +14,15 @@ async function ThreadTab({
   accountId,
   accountType,
 }: ThreadTabProps) {
-  const result = await fetchUserPosts(accountId);
+  let result: any;
+
+  if (accountType === "User") {
+    result = await fetchUserPosts(accountId);
+  } else {
+    result = await fetchCommunityPosts(accountId);
+  }
+
+  console.log("resulttttttttttttt: ", result);
 
   return (
     <section className="mt-9 flex flex-col gap-10">
