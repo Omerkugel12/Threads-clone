@@ -25,6 +25,7 @@ async function Page({ params }: { params: { id: string } }) {
         username={userInfo.username}
         bio={userInfo.bio}
         imgUrl={userInfo.image}
+        type="User"
       />
       <div className="mt-9">
         <Tabs defaultValue="threads" className="w-full">
