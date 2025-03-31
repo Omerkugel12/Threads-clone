@@ -1,5 +1,5 @@
 import ProfileHeader from "@/components/shared/ProfileHeader";
-import ThreadTab from "@/components/shared/ThreadTab";
+import ThreadsTab from "@/components/shared/ThreadsTab";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { profileTabs } from "@/constants";
 import { fetchUser } from "@/lib/actions/user.actions";
@@ -57,7 +57,7 @@ async function Page({ params }: { params: { id: string } }) {
                 value={tab.value}
                 className="w-full text-light-1"
               >
-                <ThreadTab
+                <ThreadsTab
                   currentUserId={user.id}
                   accountId={userInfo.id}
                   accountType="User"

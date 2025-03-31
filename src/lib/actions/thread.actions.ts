@@ -97,6 +97,11 @@ export async function fetchPostById(id: string) {
         select: "_id name image",
       })
       .populate({
+        path: "community",
+        model: Community,
+        select: "id name image",
+      })
+      .populate({
         path: "children",
         populate: [
           {

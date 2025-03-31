@@ -5,6 +5,7 @@ import User from "../models/user.model";
 import { connectToDB } from "../mongoose";
 import { FilterQuery, SortOrder } from "mongoose";
 import Thread from "../models/thread.model";
+import Community from "../models/community.model";
 
 interface Params {
   userId: string;
@@ -62,12 +63,19 @@ export async function fetchUserPosts(userId: string) {
 
     const userThreads = await User.findOne({ id: userId }).populate({
       path: "threads",
-      model: "Thread",
-      populate: {
-        path: "children",
-        model: "Thread",
-        populate: { path: "author", model: "User", select: "name image id" },
-      },
+      model: Thread,
+      populate: [
+        { path: "community", model: "Community", select: "id name image" },
+        {
+          path: "children",
+          model: "Thread",
+          populate: {
+            path: "author",
+            model: "User",
+            select: "name image id",
+          },
+        },
+      ],
     });
 
     return userThreads;
