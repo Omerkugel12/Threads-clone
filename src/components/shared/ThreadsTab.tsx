@@ -3,17 +3,17 @@ import React from "react";
 import ThreadCard from "../cards/ThreadCard";
 import { fetchCommunityPosts } from "@/lib/actions/community.actions";
 
-interface ThreadTabProps {
+interface ThreadsTabProps {
   currentUserId: string;
   accountId: string;
   accountType: string;
 }
 
-async function ThreadTab({
+async function ThreadsTab({
   currentUserId,
   accountId,
   accountType,
-}: ThreadTabProps) {
+}: ThreadsTabProps) {
   let result: any;
 
   if (accountType === "User") {
@@ -52,4 +52,4 @@ async function ThreadTab({
   );
 }
 
-export default ThreadTab;
+export default ThreadsTab;

@@ -7,6 +7,7 @@ import Thread from "../models/thread.model";
 import User from "../models/user.model";
 
 import { connectToDB } from "../mongoose";
+import path from "path";
 
 export async function createCommunity(
   id: string,
@@ -81,6 +82,11 @@ export async function fetchCommunityPosts(id: string) {
         {
           path: "author",
           model: User,
+          select: "name image id", // Select the "name" and "_id" fields from the "User" model
+        },
+        {
+          path: "community",
+          model: Community,
           select: "name image id", // Select the "name" and "_id" fields from the "User" model
         },
         {
