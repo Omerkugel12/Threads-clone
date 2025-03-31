@@ -22,8 +22,6 @@ async function ThreadTab({
     result = await fetchCommunityPosts(accountId);
   }
 
-  console.log("resulttttttttttttt: ", result);
-
   return (
     <section className="mt-9 flex flex-col gap-10">
       {result.threads.map((thread: any) => {

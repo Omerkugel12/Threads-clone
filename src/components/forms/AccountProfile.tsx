@@ -60,8 +60,6 @@ function AccountProfile({ user, btnTitle }: PropsTyps) {
 
       if (!file.type.includes("image")) return;
 
-      console.log(file);
-
       fileReader.onload = async (event) => {
         const imageDataUrl = event.target?.result?.toString() || "";
 

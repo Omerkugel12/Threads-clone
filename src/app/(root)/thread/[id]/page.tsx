@@ -16,8 +16,6 @@ async function Page({ params }: { params: { id: string } }) {
 
   const post = await fetchPostById(params.id);
 
-  //   console.log("userInfo._idddddddddddð: ", userInfo._id.toString());
-
   return (
     <section className="relative">
       <div>

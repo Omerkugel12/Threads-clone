@@ -13,8 +13,6 @@ async function page() {
 
   const userInfo = await fetchUser(user.id);
 
-  // console.log("userrrrrrr: ", user);
-
   const userData: UserData = {
     _id: userInfo?._id,
     id: user?.id,
