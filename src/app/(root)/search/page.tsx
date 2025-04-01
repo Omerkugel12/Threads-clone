@@ -1,42 +1,94 @@
+"use client";
+
 import UserCard from "@/components/cards/UserCard";
-import { fetchUser, fetchUsers } from "@/lib/actions/user.actions";
-import { currentUser } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
-import React from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+import useUser from "@/hooks/useUser";
 
-async function Page() {
-  const user = await currentUser();
-  if (!user) return null;
+import React, { useEffect } from "react";
 
-  const userInfo = await fetchUser(user.id);
-  if (!userInfo?.onboarded) redirect("/onboarding");
+function Page() {
+  const { user, getCurrentUser, getUsers, users, loading } = useUser();
 
-  const result = await fetchUsers({
-    userId: userInfo.id,
-    searchString: "",
-    pageNumber: 1,
-    pageSize: 25,
-  });
+  useEffect(() => {
+    getCurrentUser();
+    getUsers();
+  }, []);
 
   return (
     <section>
       <h1 className="head-text mb-10">Search</h1>
 
       <div className="mt-14 flex flex-col gap-9">
-        {result?.users.length === 0 ? (
-          <p className="no-result">No users found</p>
+        {loading.getUsers ? (
+          <div className="flex justify-center items-center flex-col gap-10">
+            <div className="flex items-center space-x-4 w-full">
+              <Skeleton className="h-12 w-12 rounded-full" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250" />
+                <Skeleton className="h-4 w-[200px]" />
+              </div>
+            </div>
+            <div className="flex items-center space-x-4 w-full">
+              <Skeleton className="h-12 w-12 rounded-full" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250" />
+                <Skeleton className="h-4 w-[200px]" />
+              </div>
+            </div>
+            <div className="flex items-center space-x-4 w-full">
+              <Skeleton className="h-12 w-12 rounded-full" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250" />
+                <Skeleton className="h-4 w-[200px]" />
+              </div>
+            </div>
+            <div className="flex items-center space-x-4 w-full">
+              <Skeleton className="h-12 w-12 rounded-full" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250" />
+                <Skeleton className="h-4 w-[200px]" />
+              </div>
+            </div>
+            <div className="flex items-center space-x-4 w-full">
+              <Skeleton className="h-12 w-12 rounded-full" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250" />
+                <Skeleton className="h-4 w-[200px]" />
+              </div>
+            </div>
+            <div className="flex items-center space-x-4 w-full">
+              <Skeleton className="h-12 w-12 rounded-full" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250" />
+                <Skeleton className="h-4 w-[200px]" />
+              </div>
+            </div>
+            <div className="flex items-center space-x-4 w-full">
+              <Skeleton className="h-12 w-12 rounded-full" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250" />
+                <Skeleton className="h-4 w-[200px]" />
+              </div>
+            </div>
+          </div>
         ) : (
           <>
-            {result?.users.map((person) => (
-              <UserCard
-                key={person.id}
-                id={person.id}
-                name={person.name}
-                username={person.username}
-                imgUrl={person.image}
-                personType="User"
-              />
-            ))}
+            {users?.length === 0 ? (
+              <p className="no-result">No users found</p>
+            ) : (
+              <>
+                {users?.map((person: any) => (
+                  <UserCard
+                    key={person.id}
+                    id={person.id}
+                    name={person.name}
+                    username={person.username}
+                    imgUrl={person.image}
+                    personType="User"
+                  />
+                ))}
+              </>
+            )}
           </>
         )}
       </div>
