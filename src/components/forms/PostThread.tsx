@@ -3,6 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
+import CircularProgress from "@mui/material/CircularProgress";
 import {
   Form,
   FormControl,
@@ -17,7 +18,7 @@ import { z } from "zod";
 import { Textarea } from "../ui/textarea";
 import { useUploadThing } from "@/lib/uploadthing";
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { ThreadValidation } from "@/lib/validations/thread";
 import { createThread } from "@/lib/actions/thread.actions";
 import { useOrganization } from "@clerk/nextjs";
@@ -26,6 +27,7 @@ function PostThread({ userId }: { userId: string }) {
   const router = useRouter();
   const pathname = usePathname();
   const { organization } = useOrganization();
+  const [loading, setLoading] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(ThreadValidation),
@@ -36,6 +38,7 @@ function PostThread({ userId }: { userId: string }) {
   });
 
   const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
+    setLoading(true);
     try {
       await createThread({
         text: values.thread,
@@ -43,10 +46,13 @@ function PostThread({ userId }: { userId: string }) {
         communityId: organization ? organization.id : null,
         path: pathname,
       });
+      setLoading(false);
 
       router.push("/");
     } catch (error) {
       throw new Error(`Failed to create thread: ${error}`);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -74,7 +80,11 @@ function PostThread({ userId }: { userId: string }) {
             )}
           />
           <Button type="submit" className="bg-primary-500">
-            Submit
+            {loading ? (
+              <CircularProgress color="inherit" size={15} />
+            ) : (
+              "Submit"
+            )}
           </Button>
         </form>
       </Form>
