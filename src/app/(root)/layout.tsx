@@ -6,6 +6,7 @@ import TopBar from "@/components/shared/TopBar";
 import LeftSideBar from "@/components/shared/LeftBar";
 import RightSideBar from "@/components/shared/RightBar";
 import BottomBar from "@/components/shared/BottomBar";
+import RecoilProvider from "@/components/RecoilProvider";
 
 export const metadata: Metadata = {
   title: "Threads",
@@ -23,15 +24,17 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={`${inter.className}`}>
-          <TopBar />
-          <main className="flex flex-row">
-            <LeftSideBar />
-            <section className="main-container">
-              <div className="w-full max-w-4xl">{children}</div>
-            </section>
-            <RightSideBar />
-          </main>
-          <BottomBar />
+          <RecoilProvider>
+            <TopBar />
+            <main className="flex flex-row">
+              <LeftSideBar />
+              <section className="main-container">
+                <div className="w-full max-w-4xl">{children}</div>
+              </section>
+              <RightSideBar />
+            </main>
+            <BottomBar />
+          </RecoilProvider>
         </body>
       </html>
     </ClerkProvider>

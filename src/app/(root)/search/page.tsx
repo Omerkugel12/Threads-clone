@@ -1,33 +1,61 @@
+"use client";
+
 import UserCard from "@/components/cards/UserCard";
 import { fetchUser, fetchUsers } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
-import React from "react";
+import axios from "axios";
+import { redirect, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
-async function Page() {
-  const user = await currentUser();
-  if (!user) return null;
+function Page() {
+  const [userInfo, setUserInfo] = useState<any>();
+  const [users, setUsers] = useState([]);
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
-  const userInfo = await fetchUser(user.id);
-  if (!userInfo?.onboarded) redirect("/onboarding");
+  async function getUser() {
+    try {
+      const res = await axios.get("/api/user");
 
-  const result = await fetchUsers({
-    userId: userInfo.id,
-    searchString: "",
-    pageNumber: 1,
-    pageSize: 25,
-  });
+      if (res.data.redirect) {
+        router.push(res.data.redirect);
+      }
+
+      setUserInfo(res.data.userInfo);
+    } catch (error) {
+      console.log("Failed to fetch user", error);
+    }
+  }
+
+  async function getUsers() {
+    try {
+      const res = await axios.get(
+        `/api/fetchUsers?userId=${userInfo?.id}&page=1&limit=25&searchString=`
+      );
+
+      setUsers(res.data.res.users);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getUser();
+    getUsers();
+  }, []);
+
+  useEffect(() => {}, [userInfo]);
 
   return (
     <section>
       <h1 className="head-text mb-10">Search</h1>
 
       <div className="mt-14 flex flex-col gap-9">
-        {result?.users.length === 0 ? (
+        {users?.length === 0 ? (
           <p className="no-result">No users found</p>
         ) : (
           <>
-            {result?.users.map((person) => (
+            {users?.map((person: any) => (
               <UserCard
                 key={person.id}
                 id={person.id}
