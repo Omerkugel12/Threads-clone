@@ -4,6 +4,11 @@ import React, { useState } from "react";
 
 function useUser() {
   const [user, setUser] = useState<any>(null);
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState<{ getUsers: boolean }>({
+    getUsers: false,
+  });
+
   const router = useRouter();
 
   const getCurrentUser = async () => {
@@ -20,7 +25,29 @@ function useUser() {
     }
   };
 
-  return { getCurrentUser, user };
+  async function getUsers() {
+    setLoading((prevState) => {
+      return { ...prevState, getUsers: true };
+    });
+    try {
+      const res = await axios.get(
+        `/api/fetchUsers?userId=${user?.id}&page=1&limit=25&searchString=`
+      );
+
+      setUsers(res.data.res.users);
+      setLoading((prevState) => {
+        return { ...prevState, getUsers: false };
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading((prevState) => {
+        return { ...prevState, getUsers: false };
+      });
+    }
+  }
+
+  return { getCurrentUser, user, getUsers, users, loading };
 }
 
 export default useUser;

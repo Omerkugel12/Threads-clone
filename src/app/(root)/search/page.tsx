@@ -1,70 +1,94 @@
 "use client";
 
 import UserCard from "@/components/cards/UserCard";
-import { fetchUser, fetchUsers } from "@/lib/actions/user.actions";
-import { currentUser } from "@clerk/nextjs/server";
-import axios from "axios";
-import { redirect, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+import useUser from "@/hooks/useUser";
+
+import React, { useEffect } from "react";
 
 function Page() {
-  const [userInfo, setUserInfo] = useState<any>();
-  const [users, setUsers] = useState([]);
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
-
-  async function getUser() {
-    try {
-      const res = await axios.get("/api/user");
-
-      if (res.data.redirect) {
-        router.push(res.data.redirect);
-      }
-
-      setUserInfo(res.data.userInfo);
-    } catch (error) {
-      console.log("Failed to fetch user", error);
-    }
-  }
-
-  async function getUsers() {
-    try {
-      const res = await axios.get(
-        `/api/fetchUsers?userId=${userInfo?.id}&page=1&limit=25&searchString=`
-      );
-
-      setUsers(res.data.res.users);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  const { user, getCurrentUser, getUsers, users, loading } = useUser();
 
   useEffect(() => {
-    getUser();
+    getCurrentUser();
     getUsers();
   }, []);
-
-  useEffect(() => {}, [userInfo]);
 
   return (
     <section>
       <h1 className="head-text mb-10">Search</h1>
 
       <div className="mt-14 flex flex-col gap-9">
-        {users?.length === 0 ? (
-          <p className="no-result">No users found</p>
+        {loading.getUsers ? (
+          <div className="flex justify-center items-center flex-col gap-10">
+            <div className="flex items-center space-x-4 w-full">
+              <Skeleton className="h-12 w-12 rounded-full" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250" />
+                <Skeleton className="h-4 w-[200px]" />
+              </div>
+            </div>
+            <div className="flex items-center space-x-4 w-full">
+              <Skeleton className="h-12 w-12 rounded-full" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250" />
+                <Skeleton className="h-4 w-[200px]" />
+              </div>
+            </div>
+            <div className="flex items-center space-x-4 w-full">
+              <Skeleton className="h-12 w-12 rounded-full" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250" />
+                <Skeleton className="h-4 w-[200px]" />
+              </div>
+            </div>
+            <div className="flex items-center space-x-4 w-full">
+              <Skeleton className="h-12 w-12 rounded-full" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250" />
+                <Skeleton className="h-4 w-[200px]" />
+              </div>
+            </div>
+            <div className="flex items-center space-x-4 w-full">
+              <Skeleton className="h-12 w-12 rounded-full" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250" />
+                <Skeleton className="h-4 w-[200px]" />
+              </div>
+            </div>
+            <div className="flex items-center space-x-4 w-full">
+              <Skeleton className="h-12 w-12 rounded-full" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250" />
+                <Skeleton className="h-4 w-[200px]" />
+              </div>
+            </div>
+            <div className="flex items-center space-x-4 w-full">
+              <Skeleton className="h-12 w-12 rounded-full" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250" />
+                <Skeleton className="h-4 w-[200px]" />
+              </div>
+            </div>
+          </div>
         ) : (
           <>
-            {users?.map((person: any) => (
-              <UserCard
-                key={person.id}
-                id={person.id}
-                name={person.name}
-                username={person.username}
-                imgUrl={person.image}
-                personType="User"
-              />
-            ))}
+            {users?.length === 0 ? (
+              <p className="no-result">No users found</p>
+            ) : (
+              <>
+                {users?.map((person: any) => (
+                  <UserCard
+                    key={person.id}
+                    id={person.id}
+                    name={person.name}
+                    username={person.username}
+                    imgUrl={person.image}
+                    personType="User"
+                  />
+                ))}
+              </>
+            )}
           </>
         )}
       </div>
