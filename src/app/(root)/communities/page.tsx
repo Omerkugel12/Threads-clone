@@ -4,7 +4,7 @@ import CommunityCard from "@/components/cards/CommunityCard";
 import UserCard from "@/components/cards/UserCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import useCommunity from "@/hooks/useCommunity";
-import useUser from "@/hooks/useUser";
+import useUser from "@/hooks/useUsers";
 import { fetchCommunities } from "@/lib/actions/community.actions";
 import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs/server";

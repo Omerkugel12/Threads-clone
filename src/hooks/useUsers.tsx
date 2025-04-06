@@ -2,7 +2,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useState } from "react";
 
-function useUser() {
+function useUsers() {
   const [user, setUser] = useState<any>(null);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState<{ getUsers: boolean }>({
@@ -27,13 +27,19 @@ function useUser() {
     };
   }, []);
 
-  const getUsers = async () => {
+  const getUsers = async ({
+    pageNumber,
+    searchString,
+  }: {
+    pageNumber: number;
+    searchString: string;
+  }) => {
     setLoading((prevState) => {
       return { ...prevState, getUsers: true };
     });
     try {
       const res = await axios.get(
-        `/api/users?userId=${user?.id}&page=1&limit=25&searchString=`
+        `/api/users?userId=${user?.id}&page=${pageNumber}&limit=2&searchString=${searchString}`
       );
 
       setUsers(res.data.res.users);
@@ -52,4 +58,4 @@ function useUser() {
   return { getCurrentUser, user, getUsers, users, loading };
 }
 
-export default useUser;
+export default useUsers;
