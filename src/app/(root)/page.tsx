@@ -8,7 +8,7 @@ import { redirect, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Skeleton } from "@/components/ui/skeleton";
-import useUser from "@/hooks/useUser";
+import useUser from "@/hooks/useUsers";
 import useThreads from "@/hooks/useThreads";
 
 function Home() {

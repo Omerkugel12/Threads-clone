@@ -1,22 +1,43 @@
 "use client";
 
 import UserCard from "@/components/cards/UserCard";
+import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import useUser from "@/hooks/useUser";
+import useUsers from "@/hooks/useUsers";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 function Page() {
-  const { user, getCurrentUser, getUsers, users, loading } = useUser();
+  const { user, getCurrentUser, getUsers, users, loading } = useUsers();
+  const [criteria, setCriteria] = useState<{
+    pageNumber: number;
+    searchString: string;
+  }>({
+    pageNumber: 1,
+    searchString: "",
+  });
 
   useEffect(() => {
     getCurrentUser();
-    getUsers();
-  }, []);
+    getUsers(criteria);
+  }, [getCurrentUser, criteria]);
 
   return (
     <section>
       <h1 className="head-text mb-10">Search</h1>
+      <Input
+        type="text"
+        value={criteria.searchString}
+        onChange={(e) =>
+          setCriteria({
+            ...criteria,
+            pageNumber: 1,
+            searchString: e.target.value,
+          })
+        }
+        placeholder="Enter name or username..."
+        className="searchbar_input"
+      />
 
       <div className="mt-14 flex flex-col gap-9">
         {loading.getUsers ? (
