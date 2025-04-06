@@ -18,7 +18,7 @@ function Home() {
   useEffect(() => {
     getCurrentUser();
     getPosts();
-  }, []);
+  }, [getCurrentUser, getPosts]);
 
   return (
     <main>

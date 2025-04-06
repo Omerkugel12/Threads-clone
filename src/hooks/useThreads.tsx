@@ -1,13 +1,13 @@
 import { loadingPostsState } from "@/store/loading-posts";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useRecoilState } from "recoil";
 
 function useThreads() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useRecoilState(loadingPostsState);
 
-  async function getPosts() {
+  const getPosts = useCallback(async () => {
     setLoading((prevState) => {
       return { ...prevState, getPosts: true };
     });
@@ -25,7 +25,7 @@ function useThreads() {
         return { ...prevState, getPosts: false };
       });
     }
-  }
+  }, []);
   return { getPosts, posts, loading };
 }
 

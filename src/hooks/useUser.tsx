@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 function useUser() {
   const [user, setUser] = useState<any>(null);
@@ -11,21 +11,23 @@ function useUser() {
 
   const router = useRouter();
 
-  const getCurrentUser = async () => {
-    try {
-      const res = await axios.get("/api/user");
+  const getCurrentUser = useCallback(() => {
+    async () => {
+      try {
+        const res = await axios.get("/api/user");
 
-      if (res.data.redirect) {
-        router.push(res.data.redirect);
+        if (res.data.redirect) {
+          router.push(res.data.redirect);
+        }
+
+        setUser(res.data.userInfo);
+      } catch (error) {
+        console.log("Failed to fetch user", error);
       }
+    };
+  }, []);
 
-      setUser(res.data.userInfo);
-    } catch (error) {
-      console.log("Failed to fetch user", error);
-    }
-  };
-
-  async function getUsers() {
+  const getUsers = async () => {
     setLoading((prevState) => {
       return { ...prevState, getUsers: true };
     });
@@ -45,7 +47,7 @@ function useUser() {
         return { ...prevState, getUsers: false };
       });
     }
-  }
+  };
 
   return { getCurrentUser, user, getUsers, users, loading };
 }
