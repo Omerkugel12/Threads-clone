@@ -8,12 +8,20 @@ function useCommunity() {
     getCommunities: false,
   });
 
-  const getCommunities = async () => {
+  const getCommunities = async ({
+    pageNumber,
+    searchString,
+  }: {
+    pageNumber: number;
+    searchString: string;
+  }) => {
     setLoading((prevState) => {
       return { ...prevState, getCommunities: true };
     });
     try {
-      const res = await axios.get("/api/communities");
+      const res = await axios.get(
+        `/api/communities?page=${pageNumber}&limit=2&searchString=${searchString}`
+      );
 
       setCommunities(res.data.res.communities);
       setLoading((prevState) => {

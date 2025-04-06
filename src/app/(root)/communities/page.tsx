@@ -2,6 +2,7 @@
 
 import CommunityCard from "@/components/cards/CommunityCard";
 import UserCard from "@/components/cards/UserCard";
+import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import useCommunity from "@/hooks/useCommunity";
 import useUser from "@/hooks/useUsers";
@@ -10,20 +11,37 @@ import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs/server";
 import { CircularProgress } from "@mui/material";
 import { redirect } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 function Page() {
   const { user, getCurrentUser } = useUser();
   const { getCommunities, communities, loading } = useCommunity();
+  const [criteria, setCriteria] = useState<{
+    pageNumber: number;
+    searchString: string;
+  }>({ pageNumber: 1, searchString: "" });
 
   useEffect(() => {
     getCurrentUser();
-    getCommunities();
-  }, [getCurrentUser]);
+    getCommunities(criteria);
+  }, [getCurrentUser, criteria]);
 
   return (
     <section>
       <h1 className="head-text mb-10">Communities</h1>
+      <Input
+        type="text"
+        value={criteria.searchString}
+        onChange={(e) =>
+          setCriteria({
+            ...criteria,
+            pageNumber: 1,
+            searchString: e.target.value,
+          })
+        }
+        placeholder="Enter community name..."
+        className="searchbar_input"
+      />
 
       <div className="mt-14 flex flex-col gap-9">
         {loading.getCommunities ? (
