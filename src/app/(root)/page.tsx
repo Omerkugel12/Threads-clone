@@ -27,55 +27,15 @@ function Home() {
       <section className="mt-9 flex flex-col gap-10">
         {loading.getPosts && (
           <div className="flex justify-center items-center flex-col gap-10">
-            <div className="flex items-center space-x-4 w-full">
-              <Skeleton className="h-12 w-12 rounded-full" />
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-[250" />
-                <Skeleton className="h-4 w-[200px]" />
+            {Array.from({ length: 7 }).map((_, index) => (
+              <div key={index} className="flex items-center space-x-4 w-full">
+                <Skeleton className="h-12 w-12 rounded-full" />
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-[250px]" />
+                  <Skeleton className="h-4 w-[200px]" />
+                </div>
               </div>
-            </div>
-            <div className="flex items-center space-x-4 w-full">
-              <Skeleton className="h-12 w-12 rounded-full" />
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-[250" />
-                <Skeleton className="h-4 w-[200px]" />
-              </div>
-            </div>
-            <div className="flex items-center space-x-4 w-full">
-              <Skeleton className="h-12 w-12 rounded-full" />
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-[250" />
-                <Skeleton className="h-4 w-[200px]" />
-              </div>
-            </div>
-            <div className="flex items-center space-x-4 w-full">
-              <Skeleton className="h-12 w-12 rounded-full" />
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-[250" />
-                <Skeleton className="h-4 w-[200px]" />
-              </div>
-            </div>
-            <div className="flex items-center space-x-4 w-full">
-              <Skeleton className="h-12 w-12 rounded-full" />
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-[250" />
-                <Skeleton className="h-4 w-[200px]" />
-              </div>
-            </div>
-            <div className="flex items-center space-x-4 w-full">
-              <Skeleton className="h-12 w-12 rounded-full" />
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-[250" />
-                <Skeleton className="h-4 w-[200px]" />
-              </div>
-            </div>
-            <div className="flex items-center space-x-4 w-full">
-              <Skeleton className="h-12 w-12 rounded-full" />
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-[250" />
-                <Skeleton className="h-4 w-[200px]" />
-              </div>
-            </div>
+            ))}
           </div>
         )}
         <>

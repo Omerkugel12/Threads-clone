@@ -33,7 +33,7 @@ function useUser() {
     });
     try {
       const res = await axios.get(
-        `/api/fetchUsers?userId=${user?.id}&page=1&limit=25&searchString=`
+        `/api/users?userId=${user?.id}&page=1&limit=25&searchString=`
       );
 
       setUsers(res.data.res.users);

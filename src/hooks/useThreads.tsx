@@ -12,7 +12,7 @@ function useThreads() {
       return { ...prevState, getPosts: true };
     });
     try {
-      const res = await axios.get("/api/fetchPosts?page=1&limit=5");
+      const res = await axios.get("/api/posts?page=1&limit=5");
 
       setPosts(res.data.res.posts);
       setLoading((prevState) => {
