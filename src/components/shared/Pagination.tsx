@@ -46,7 +46,7 @@ function Pagination({ searchParams, pageNumber, totalPages }: PaginationProps) {
     <div className="mt-10 flex justify-center items-center gap-4">
       <button
         onClick={() => handlePageChange(pageNumber - 1)}
-        className={`flex items-center justify-center w-10 h-10 rounded-full bg-transparent text-primary-500 font-semibold transition-all duration-300 ease-in-out hover:bg-primary-100 disabled:bg-gray-300 disabled:text-gray-500`}
+        className={`flex items-center justify-center w-10 h-10 rounded-full bg-transparent text-primary-500 font-semibold transition-all duration-300 ease-in-out hover:bg-primary-100`}
         disabled={pageNumber === 1}
       >
         <ChevronLeft />
@@ -79,7 +79,7 @@ function Pagination({ searchParams, pageNumber, totalPages }: PaginationProps) {
 
       <button
         onClick={() => handlePageChange(pageNumber + 1)}
-        className={`flex items-center justify-center w-10 h-10 rounded-full bg-transparent text-primary-500 font-semibold transition-all duration-300 ease-in-out hover:bg-primary-100 disabled:bg-gray-300 disabled:text-gray-500`}
+        className={`flex items-center justify-center w-10 h-10 rounded-full bg-transparent text-primary-500 font-semibold transition-all duration-300 ease-in-out hover:bg-primary-100`}
         disabled={pageNumber === totalPages}
       >
         <ChevronRight />
