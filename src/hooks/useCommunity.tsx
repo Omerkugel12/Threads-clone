@@ -7,6 +7,7 @@ function useCommunity() {
   const [loading, setLoading] = useState<{ getCommunities: boolean }>({
     getCommunities: false,
   });
+  const [totalPages, setTotalPages] = useState<number>();
 
   const getCommunities = async ({
     pageNumber,
@@ -24,6 +25,7 @@ function useCommunity() {
       );
 
       setCommunities(res.data.res.communities);
+      setTotalPages(res.data.res.totalPages);
       setLoading((prevState) => {
         return { ...prevState, getCommunities: false };
       });
@@ -36,7 +38,7 @@ function useCommunity() {
     }
   };
 
-  return { getCommunities, communities, loading };
+  return { getCommunities, communities, loading, totalPages };
 }
 
 export default useCommunity;

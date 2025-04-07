@@ -8,6 +8,7 @@ function useUsers() {
   const [loading, setLoading] = useState<{ getUsers: boolean }>({
     getUsers: false,
   });
+  const [totalPages, setTotalPages] = useState<number>();
 
   const router = useRouter();
 
@@ -39,10 +40,11 @@ function useUsers() {
     });
     try {
       const res = await axios.get(
-        `/api/users?userId=${user?.id}&page=${pageNumber}&limit=2&searchString=${searchString}`
+        `/api/users?userId=${user?.id}&page=${pageNumber}&limit=10&searchString=${searchString}`
       );
 
       setUsers(res.data.res.users);
+      setTotalPages(res.data.res.totalPages);
       setLoading((prevState) => {
         return { ...prevState, getUsers: false };
       });
@@ -55,7 +57,7 @@ function useUsers() {
     }
   };
 
-  return { getCurrentUser, user, getUsers, users, loading };
+  return { getCurrentUser, user, getUsers, users, loading, totalPages };
 }
 
 export default useUsers;

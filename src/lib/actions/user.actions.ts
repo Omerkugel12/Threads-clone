@@ -89,7 +89,7 @@ export async function fetchUsers({
   searchString = "",
   pageNumber = 1,
   pageSize = 20,
-  sortBy = "desc",
+  sortBy = "asc",
 }: {
   userId: string;
   searchString?: string;
@@ -115,7 +115,7 @@ export async function fetchUsers({
       ];
     }
 
-    const sortOptions = { createdAt: sortBy };
+    const sortOptions = { createdAt: sortBy, _id: sortBy };
 
     const usersQuery = User.find(query)
       .sort(sortOptions)
@@ -123,12 +123,13 @@ export async function fetchUsers({
       .limit(pageSize);
 
     const totalUsersCount = await User.countDocuments(query);
+    const totalPages = Math.ceil(totalUsersCount / pageSize);
 
     const users = await usersQuery.exec();
 
     const isNext = totalUsersCount > skipAmount + users.length;
 
-    return { users, isNext };
+    return { users, isNext, totalPages };
   } catch (error) {}
 }
 
