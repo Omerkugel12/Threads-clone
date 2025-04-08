@@ -1,7 +1,10 @@
+"use client";
+
 import { formatDateString } from "@/lib/utils";
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 interface PropsTypes {
   id: string;
@@ -39,6 +42,60 @@ function ThreadCard({
   parentId,
   isComment,
 }: PropsTypes) {
+  const [hasCurrentUserLiked, setHasCurrentUserLiked] =
+    useState<boolean>(false);
+  const [totalLikes, setTotalLikes] = useState<number>(0);
+
+  async function createLike(userId: string, threadId: string) {
+    try {
+      const res = await axios.post(`/api/likes`, {
+        userId,
+        threadId,
+      });
+      setHasCurrentUserLiked(true);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function deleteLike(userId: string, threadId: string) {
+    try {
+      const res = await axios.delete(`api/likes`, {
+        data: { userId, threadId },
+      });
+      setHasCurrentUserLiked(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function checkIfUserLiked(userId: string, threadId: string) {
+    try {
+      const res = await axios.post("/api/checkIfUserLike", {
+        userId,
+        threadId,
+      });
+      setHasCurrentUserLiked(res.data.result);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function fetchCurrentThreadLikes(threadId: string) {
+    try {
+      const res = await axios.get(`/api/likes?threadId=${id}`);
+      setTotalLikes(res.data.total);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    checkIfUserLiked(author._id as string, id);
+    fetchCurrentThreadLikes(id);
+  }, [author._id, id, createLike, deleteLike]);
+
   return (
     <article
       className={`flex w-full flex-col rounded-xl bg-dark-2 p-7 ${
@@ -66,14 +123,26 @@ function ThreadCard({
             </Link>
             <p className="mt-2 text-small-regular text-light-2">{content}</p>
             <div className="mt-5 flex flex-col gap-3">
-              <div className="flex gap-3.5">
+              <div className="flex gap-3.5 items-center">
                 <Image
-                  src="/assets/heart-gray.svg"
+                  src={`/assets/heart-${
+                    hasCurrentUserLiked ? "filled" : "gray"
+                  }.svg`}
                   alt="heart"
                   width={24}
                   height={24}
-                  className="cursor-pointer object-contain"
+                  className={`cursor-pointer object-contain transition-transform duration-300 ${
+                    hasCurrentUserLiked ? "scale-110" : "scale-100"
+                  }`}
+                  onClick={() =>
+                    hasCurrentUserLiked
+                      ? deleteLike(author._id as string, id)
+                      : createLike(author._id as string, id)
+                  }
                 />
+                {totalLikes > 0 && (
+                  <p className="text-white text-small-regular">{totalLikes}</p>
+                )}
                 <Link href={`/thread/${id}`}>
                   <Image
                     src="/assets/reply.svg"
