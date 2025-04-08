@@ -34,7 +34,7 @@ async function ThreadsTab({
             content={thread.text}
             author={
               accountType === "User"
-                ? { name: result.name, image: result.image, id: result._id }
+                ? { name: result.name, image: result.image, id: result.id }
                 : {
                     name: thread.author.name,
                     image: thread.author.image,
