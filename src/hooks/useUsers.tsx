@@ -12,21 +12,19 @@ function useUsers() {
 
   const router = useRouter();
 
-  const getCurrentUser = useCallback(() => {
-    async () => {
-      try {
-        const res = await axios.get("/api/user");
+  const getCurrentUser = async () => {
+    try {
+      const res = await axios.get("/api/user");
 
-        if (res.data.redirect) {
-          router.push(res.data.redirect);
-        }
-
-        setUser(res.data.userInfo);
-      } catch (error) {
-        console.log("Failed to fetch user", error);
+      if (res.data.redirect) {
+        router.push(res.data.redirect);
       }
-    };
-  }, []);
+
+      setUser(res.data.userInfo);
+    } catch (error) {
+      console.log("Failed to fetch user", error);
+    }
+  };
 
   const getUsers = async ({
     pageNumber,
