@@ -92,7 +92,7 @@ function ThreadCard({
   }
 
   useEffect(() => {
-    checkIfUserLiked(author._id as string, id);
+    checkIfUserLiked(currentUserId, id);
     fetchCurrentThreadLikes(id);
   }, [author._id, id, createLike, deleteLike]);
 
