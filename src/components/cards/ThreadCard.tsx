@@ -106,9 +106,9 @@ function ThreadCard({
                       : createLike(currentUserId, id)
                   }
                 />
-                {totalLikes > 0 && (
-                  <p className="text-white text-small-regular">{totalLikes}</p>
-                )}
+                {/* {totalLikes > 0 && ( */}
+                <p className="text-white text-small-regular">{totalLikes}</p>
+                {/* )} */}
                 <Link href={`/thread/${id}`}>
                   <Image
                     src="/assets/reply.svg"
