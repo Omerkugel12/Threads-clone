@@ -9,16 +9,16 @@ import { redirect } from "next/navigation";
 import React from "react";
 
 async function Page({ params }: { params: { id: string } }) {
-  const user = await currentUser();
+  // const user = await currentUser();
 
-  if (!user) return null;
+  // if (!user) return null;
 
-  const userInfo = await fetchUser(params.id);
+  // const userInfo = await fetchUser(params.id);
   // if (!userInfo?.onboarded) redirect("/onboarding");
 
   return (
     <section>
-      <ProfileHeader
+      {/* <ProfileHeader
         accountId={userInfo.id}
         authUserId={user.id}
         name={userInfo.name}
@@ -26,7 +26,7 @@ async function Page({ params }: { params: { id: string } }) {
         bio={userInfo.bio}
         imgUrl={userInfo.image}
         type="User"
-      />
+      /> */}
       <div className="mt-9">
         <Tabs defaultValue="threads" className="w-full">
           <TabsList className="tab">
@@ -41,11 +41,11 @@ async function Page({ params }: { params: { id: string } }) {
                     className="object-contain"
                   />
                   <p className="max-sm:hidden">{tab.label}</p>
-                  {tab.label === "Threads" && (
+                  {/* {tab.label === "Threads" && (
                     <p className="ml-1 rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2">
                       {userInfo?.threads?.length}
                     </p>
-                  )}
+                  )} */}
                 </TabsTrigger>
               );
             })}
@@ -57,11 +57,11 @@ async function Page({ params }: { params: { id: string } }) {
                 value={tab.value}
                 className="w-full text-light-1"
               >
-                <ThreadsTab
+                {/* <ThreadsTab
                   currentUserId={user.id}
                   accountId={userInfo.id}
                   accountType="User"
-                />
+                /> */}
               </TabsContent>
             );
           })}
