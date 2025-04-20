@@ -54,8 +54,13 @@ function ThreadCard({
 
   useEffect(() => {
     checkIfUserLiked(currentUserId, id);
+  }, [currentUserId, id]);
+
+  useEffect(() => {
     fetchCurrentThreadLikes(id);
-  }, [currentUserId, id, createLike, deleteLike]);
+  }, [id, createLike, deleteLike]);
+
+  console.log("totalLikes: ", totalLikes);
 
   return (
     <article
