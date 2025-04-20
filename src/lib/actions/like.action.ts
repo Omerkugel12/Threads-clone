@@ -1,5 +1,6 @@
 "use server";
 
+import mongoose from "mongoose";
 import Like from "../models/like.model";
 import { connectToDB } from "@/lib/mongoose";
 
@@ -34,7 +35,9 @@ export async function fetchLikesOfThread(threadId: string) {
   try {
     await connectToDB();
 
-    const likes = await Like.find({ threadId }).populate({
+    const objectId = new mongoose.Types.ObjectId(threadId);
+
+    const likes = await Like.find({ threadId: objectId }).populate({
       path: "userId",
       model: "User",
     });
