@@ -45,6 +45,8 @@ function useLikes() {
   async function fetchCurrentThreadLikes(threadId: string) {
     try {
       const res = await axios.get(`/api/likes?threadId=${threadId}`);
+      console.log("res: ", res);
+
       setTotalLikes(res.data.total);
     } catch (error) {
       console.log(error);
