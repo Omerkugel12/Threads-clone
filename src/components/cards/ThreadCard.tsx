@@ -1,5 +1,6 @@
 "use client";
 
+import useLikes from "@/hooks/useLikes";
 import { formatDateString } from "@/lib/utils";
 import axios from "axios";
 import Image from "next/image";
@@ -42,59 +43,19 @@ function ThreadCard({
   parentId,
   isComment,
 }: PropsTypes) {
-  const [hasCurrentUserLiked, setHasCurrentUserLiked] =
-    useState<boolean>(false);
-  const [totalLikes, setTotalLikes] = useState<number>(0);
-
-  async function createLike(userId: string, threadId: string) {
-    try {
-      const res = await axios.post(`/api/likes`, {
-        userId,
-        threadId,
-      });
-      setHasCurrentUserLiked(true);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async function deleteLike(userId: string, threadId: string) {
-    try {
-      const res = await axios.delete(`api/likes`, {
-        data: { userId, threadId },
-      });
-      setHasCurrentUserLiked(false);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async function checkIfUserLiked(userId: string, threadId: string) {
-    try {
-      const res = await axios.post("/api/checkIfUserLike", {
-        userId,
-        threadId,
-      });
-      setHasCurrentUserLiked(res.data.result);
-      return res;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async function fetchCurrentThreadLikes(threadId: string) {
-    try {
-      const res = await axios.get(`/api/likes?threadId=${id}`);
-      setTotalLikes(res.data.total);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  const {
+    hasCurrentUserLiked,
+    createLike,
+    deleteLike,
+    checkIfUserLiked,
+    fetchCurrentThreadLikes,
+    totalLikes,
+  } = useLikes();
 
   useEffect(() => {
     checkIfUserLiked(currentUserId, id);
     fetchCurrentThreadLikes(id);
-  }, [author._id, id, createLike, deleteLike]);
+  }, [currentUserId, id, createLike, deleteLike]);
 
   return (
     <article
@@ -136,8 +97,8 @@ function ThreadCard({
                   }`}
                   onClick={() =>
                     hasCurrentUserLiked
-                      ? deleteLike(author._id as string, id)
-                      : createLike(author._id as string, id)
+                      ? deleteLike(currentUserId, id)
+                      : createLike(currentUserId, id)
                   }
                 />
                 {totalLikes > 0 && (
