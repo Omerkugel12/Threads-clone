@@ -21,7 +21,7 @@ function Page() {
 
   useEffect(() => {
     getCurrentUser();
-  }, [getCurrentUser]);
+  }, []);
 
   useEffect(() => {
     getUsers({ pageNumber, searchString });
