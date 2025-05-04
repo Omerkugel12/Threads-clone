@@ -60,8 +60,6 @@ function ThreadCard({
     fetchCurrentThreadLikes(id);
   }, [id, createLike, deleteLike]);
 
-  console.log("totalLikes: ", totalLikes);
-
   return (
     <article
       className={`flex w-full flex-col rounded-xl bg-dark-2 p-7 ${
