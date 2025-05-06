@@ -38,10 +38,10 @@ function AccountProfile({ user, btnTitle }: PropsTyps) {
   const form = useForm({
     resolver: zodResolver(UserValidation),
     defaultValues: {
-      profile_photo: user?.image || "",
-      name: user?.name || "",
-      username: user?.username || "",
-      bio: user?.bio || "",
+      profile_photo: user?.image ? user?.image : "",
+      name: user?.name ? user.name : "",
+      username: user?.username ? user.username : "",
+      bio: user?.bio ? user.bio : "",
     },
   });
 
@@ -70,12 +70,15 @@ function AccountProfile({ user, btnTitle }: PropsTyps) {
   };
 
   async function onSubmit(values: z.infer<typeof UserValidation>) {
+    console.log("values: ", values);
     const blob = values.profile_photo;
 
     const hasImageChanged = isBase64Image(blob);
+    console.log("hasImageChanged: ", hasImageChanged);
 
     if (hasImageChanged) {
       const imgRes = await startUpload(files);
+      console.log("imgRes: ", imgRes);
 
       if (imgRes && imgRes[0].url) {
         values.profile_photo = imgRes[0].url;
