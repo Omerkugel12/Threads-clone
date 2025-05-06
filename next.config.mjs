@@ -9,6 +9,7 @@ const nextConfig = {
     serverComponentsExternalPackages: ["mongoose"],
   },
   images: {
+    domains: ["utfs.io"],
     remotePatterns: [
       {
         protocol: "https",
